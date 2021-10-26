@@ -31,7 +31,6 @@ class Generator:
                         phone_number=random_student["phone_number"],
                         email=random_student["email"],
                         begin_date=datetime.date.today(),  # needs randomizing
-                        end_date=datetime.date.today()  # needs randomizing
                     )
                 )
             except requests.exceptions.HTTPError as error:
