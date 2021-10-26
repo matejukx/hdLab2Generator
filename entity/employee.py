@@ -25,3 +25,5 @@ class Employee(Person):
         self.employment_date = employment_date
         self.role = role
         self.wage_per_hour = wage_per_hour
+        self.is_currently_busy = False
+
