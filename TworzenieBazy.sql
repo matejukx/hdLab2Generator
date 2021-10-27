@@ -24,7 +24,7 @@ GO
 
 CREATE TABLE [Employee] (
   [PK_PESEL] VARCHAR(11) UNIQUE FOREIGN KEY REFERENCES [Person],
-  [Empoyment_date] date,
+  [Employment_date] date,
   [Role] nvarchar(255) NOT NULL,
   [Wage_per_hour] float
 )
