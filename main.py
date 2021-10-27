@@ -1,7 +1,8 @@
 import datetime
 import time
 
-import generator as gen
+from dateutil import relativedelta
+
 from process import StartProcess
 
 if __name__ == '__main__':
@@ -27,10 +28,17 @@ if __name__ == '__main__':
     print(ppl_finish_string)
 
     start = time.perf_counter()
-    print('Starting to initialize activities - first month of students')
-    start_process.create_activities(date_of_inclusion=start_time, hours_per_drive=4)
+    print('Starting to initialize activities - every month of students')
+    current_month = start_time
+    for _ in range(int((end_time - start_time).days / 30)):
+        start_process.create_activities(date_of_inclusion=current_month, hours_per_drive=4)
+        current_month += relativedelta.relativedelta(months=1)
+
     print(f'Created {len(start_process.lectures)} lectures.\n'
           f'Created {len(start_process.drives)} drives.'
-          f'\nIt took {time.perf_counter() - start} seconds to create activities for approx'
-          f' \n {len(start_process.students) / int((end_time - start_time).days / 30)} students')
+          f'\nIt took {time.perf_counter() - start} seconds to create activities for all students')
+
+    all_rows = len(start_process.students) + len(start_process.lectures) + len(start_process.instructors) + len(
+        start_process.lectures) + len(start_process.drives) + len(start_process.courses)
+    print(f'We created {all_rows} rows for our SQL database')
 

@@ -71,23 +71,3 @@ def random_date(start, end):
     return start + datetime.timedelta(days=random_day)
 
 
-class Generator:
-
-    def __init__(self):
-        self.students = []
-        self.employees = []
-
-    def generate_course(self, students, employees):
-        pass
-
-    def generate_lectures(self, students, employees):
-        pass
-
-    def generate_theoretical_exams(self, students, employees):
-        pass
-
-    def generate_drives(self, students, employees):
-        pass
-
-    def generate_practical_exams(self, students, employees):
-        pass
