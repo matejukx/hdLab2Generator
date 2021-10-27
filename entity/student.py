@@ -25,7 +25,6 @@ class Student(Person):
         self.end_date = None # this will be set after final exam
 
         # those should not be mapped anywhere
-        self.lectures_done = 0
         self.drives_done = 0
         if self.gender == 'Non-binary' or self.gender == 'Female':
             self.additional_drives_factor = 1.5
