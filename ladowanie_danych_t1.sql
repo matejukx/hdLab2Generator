@@ -1,4 +1,4 @@
-use DrivingSchool9
+use DrivingSchool12
 GO
 -- po T1
 BULK INSERT dbo.Person
@@ -7,7 +7,7 @@ WITH (FIELDTERMINATOR=',')
 
 BULK INSERT dbo.Student
 FROM 'C:\Users\mmatejuk\studia\hdLab2Generator\import\student_T1.bulk' 
-WITH (FIELDTERMINATOR=',')
+WITH (FIELDTERMINATOR=',', KEEPNULLS)
 
 BULK INSERT dbo.Employee
 FROM 'C:\Users\mmatejuk\studia\hdLab2Generator\import\employee_T1.bulk' 
