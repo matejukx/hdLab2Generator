@@ -15,15 +15,20 @@ class DataRaider:
         fake.add_provider(phone_number)
         fake.add_provider(profile)
 
-        for _ in number_of_changes:
-            who_to_change = random.randint(0,100)
+        for _ in range(number_of_changes):
+            who_to_change = random.randint(0, 100)
             if who_to_change < 50:
                 # we'll be changing employee
-                employee_index = random.randint(0, len(self.process.employees))
-                entity_object = self.process.employees[employee_index]
+                who_to_change = random.randint(0, 100)
+                if who_to_change < 50:
+                    employee_index = random.randint(0, len(self.process.instructors)-1)
+                    entity_object = self.process.instructors[employee_index]
+                else:
+                    employee_index = random.randint(0, len(self.process.lecturers) - 1)
+                    entity_object = self.process.lecturers[employee_index]
             else:
                 # we'll be changing student
-                student_index = random.randint(0, len(self.process.students))
+                student_index = random.randint(0, len(self.process.students)-1)
                 entity_object = self.process.students[student_index]
 
             with open('data_change_log.txt', 'w') as log:

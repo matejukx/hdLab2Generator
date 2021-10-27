@@ -114,9 +114,9 @@ if __name__ == '__main__':
     # employees
     with open('employee_T2.bulk','w') as employee_file:
         for lecturer in process.lecturers:
-            person_file.write(lecturer.to_csv_string_employee())
+            employee_file.write(lecturer.to_csv_string_employee())
         for instructor in process.instructors:
-            person_file.write(instructor.to_csv_string_employee())
+            employee_file.write(instructor.to_csv_string_employee())
 
     # courses
     with open('course_T2.bulk', 'w') as course_file:
@@ -131,15 +131,15 @@ if __name__ == '__main__':
             meeting_file.write(meeting.to_csv_string())
 
     # participation
-    with open('participation_T2.bulk', 'w') as meeting_file:
+    with open('participation_T2.bulk', 'w') as participation_file:
         for meeting in process.lectures:
-            meeting_file.write(meeting.to_csv_string_participation())
+            participation_file.write(meeting.to_csv_string_participation())
         for meeting in process.drives:
-            meeting_file.write(meeting.to_csv_string_participation())
+            participation_file.write(meeting.to_csv_string_participation())
 
     # exams
     with open('exam_T2.bulk', 'w') as exam_file:
         for exam in process.theoretical_exams:
-            meeting_file.write(exam.to_csv_string())
+            exam_file.write(exam.to_csv_string())
         for exam in process.practical_exams:
-            meeting_file.write(exam.to_csv_string())
+            exam_file.write(exam.to_csv_string())
