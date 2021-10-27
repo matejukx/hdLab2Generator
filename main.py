@@ -1,4 +1,6 @@
 import datetime
+import getopt
+import sys
 import time
 
 from dateutil import relativedelta
@@ -6,7 +8,11 @@ from dateutil import relativedelta
 from data_raider import DataRaider
 from process import Process
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
+
+    students_number = int(sys.argv[1])
+    instructors_number = int(sys.argv[2])
 
     start_time = datetime.date.fromisoformat("2015-01-01")
     end_time = datetime.date.fromisoformat("2020-01-01")
@@ -14,8 +20,8 @@ if __name__ == '__main__':
     start = time.perf_counter()
     process = Process(start_time=start_time,
                       end_time=end_time,
-                      number_of_students=100,
-                      number_of_instructors=300,
+                      number_of_students=students_number,
+                      number_of_instructors=instructors_number,
                       number_of_lecturers=3)
     print("Starting to initialize people")
     process.initialize_people()
@@ -85,11 +91,9 @@ if __name__ == '__main__':
         for exam in process.practical_exams:
             exam_file.write(exam.to_csv_string())
 
-
     # tutaj zmiana danych nastepuje w T1
     data_raider = DataRaider(process)
     data_raider.random_changes(15)
-
 
     # lecimy dalej z generowaniem T1-T2
     for _ in range(int((end_time - start_time).days / 30 / 2)):
