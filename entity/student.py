@@ -40,4 +40,7 @@ class Student(Person):
         self.lecturer = None
 
     def to_csv_string_student(self):
-        return f'{self.pk_pesel},{self.begin_date},{self.end_date}\n'
+        if self.end_date is None:
+            return f'{self.pk_pesel},{self.begin_date},null\n'
+        else:
+            return f'{self.pk_pesel},{self.begin_date},{self.end_date}\n'
