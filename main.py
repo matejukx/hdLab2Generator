@@ -42,9 +42,9 @@ if __name__ == '__main__':
     with open('import/person_T1.bulk', 'w') as person_file:
         for student in current_students:
             person_file.write(student.to_csv_string_person())
-        for lecturer in current_students:
+        for lecturer in process.lecturers:
             person_file.write(lecturer.to_csv_string_person())
-        for instructor in current_students:
+        for instructor in process.instructors:
             person_file.write(instructor.to_csv_string_person())
 
     # students
@@ -58,6 +58,11 @@ if __name__ == '__main__':
             employee_file.write(lecturer.to_csv_string_employee())
         for instructor in process.instructors:
             employee_file.write(instructor.to_csv_string_employee())
+
+    # courses
+    with open('import/course_T1.bulk', 'w') as course_file:
+        for course in process.courses:
+            course_file.write(course.to_csv_string())
 
     # meetings
     with open('import/meeting_T1.bulk', 'w') as meeting_file:

@@ -7,5 +7,5 @@ class Course:
         self.employee_pesel = employee_pesel
 
     def to_csv_string(self):
-        return f'{self.course_id}, {self.employee_pesel}\n'
+        return f'{self.course_id},{self.employee_pesel}\n'
 

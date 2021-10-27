@@ -1,7 +1,7 @@
-CREATE DATABASE DrivingSchool
+CREATE DATABASE DrivingSchool3
 GO
 
-USE DrivingSchool
+USE DrivingSchool3
 GO
 
 CREATE TABLE [Person]

@@ -1,3 +1,5 @@
+use DrivingSchool3
+GO
 -- po T1
 BULK INSERT dbo.Person
 FROM 'C:\Users\mmatejuk\studia\hdLab2Generator\import\person_T1.bulk' 
