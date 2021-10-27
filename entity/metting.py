@@ -24,6 +24,9 @@ class Meeting:
 
     def to_csv_string_participation(self):
         string = ''
-        for student in self.students:
-            string += f'{self.meeting_id}, {student.pk_pesel}\n'
+        if len(self.students) > 1:
+            for student in self.students:
+                string += f'{self.meeting_id}, {student.pk_pesel}\n'
+        else:
+            string += f'{self.meeting_id}, {self.students[0].pk_pesel}\n'
         return string
