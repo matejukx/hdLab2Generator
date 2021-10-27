@@ -15,6 +15,9 @@ class DataRaider:
         fake.add_provider(phone_number)
         fake.add_provider(profile)
 
+        with open('data_change_log.txt', 'w') as log:
+            log.write(f'')
+
         for _ in range(number_of_changes):
             who_to_change = random.randint(0, 100)
             if who_to_change < 50:
@@ -32,7 +35,7 @@ class DataRaider:
                 entity_object = self.process.students[student_index]
 
             with open('data_change_log.txt', 'a') as log:
-                log.write(f'Before: {entity_object.to_csv_string_person()}\n')
+                log.write(f'Before: {entity_object.to_csv_string_person()}')
 
             what_do = random.randint(0,100)
             if what_do < 33:

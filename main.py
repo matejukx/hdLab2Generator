@@ -14,7 +14,7 @@ if __name__ == '__main__':
     start = time.perf_counter()
     process = Process(start_time=start_time,
                       end_time=end_time,
-                      number_of_students=10000,
+                      number_of_students=100,
                       number_of_instructors=300,
                       number_of_lecturers=3)
     print("Starting to initialize people")
@@ -36,8 +36,9 @@ if __name__ == '__main__':
 
     # przed zmiana zapisanie danych
     # people
-    current_students = filter(lambda student: student.begin_date <= start_time + relativedelta.relativedelta(days=(end_time - start_time).days),
+    current_students = filter(lambda student: student.begin_date <= current_month,
                               process.students)
+    current_students = list(current_students)
     with open('import/person_T1.bulk', 'w') as person_file:
         for student in current_students:
             person_file.write(student.to_csv_string_person())
