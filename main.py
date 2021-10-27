@@ -13,7 +13,7 @@ if __name__ == '__main__':
     start = time.perf_counter()
     process = Process(start_time=start_time,
                       end_time=end_time,
-                      number_of_students=10000,
+                      number_of_students=1000,
                       number_of_instructors=300,
                       number_of_lecturers=3)
     print("Starting to initialize people")
@@ -49,3 +49,11 @@ if __name__ == '__main__':
     print(f'We created {all_rows} rows for our SQL database')
 
     # tutaj generowanie plików do importu SQL
+    with open('bulk_load_person.bulk', 'w') as person_file:
+        for student in process.students:
+            person_file.write(student.to_csv_string_person())
+
+    # tutaj generowanie plików do importu SQL
+    with open('bulk_load_student.bulk', 'w') as student_file:
+        for student in process.students:
+            student_file.write(student.to_csv_string_student())

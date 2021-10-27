@@ -184,6 +184,7 @@ class Process:
                             exam_type=ExamType.PRACTICE
                         )
                     )
+                student.end_date = current_date
                 current_date = starting_current_date
 
             current_meeting_hour += hours_per_drive

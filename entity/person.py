@@ -13,6 +13,9 @@ class Person:
         self.name = name
         self.surname = surname
         self.date_of_birth = date_of_birth
-        self.gender = gender
+        if gender == 'F':
+            self.gender = 'Female'
+        else:
+            self.gender = 'Male'
         self.phone_number = phone_number
         self.email = email
