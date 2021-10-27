@@ -13,6 +13,12 @@ class Person:
         self.name = name
         self.surname = surname
         self.date_of_birth = date_of_birth
-        self.gender = gender
+        if gender == 'F':
+            self.gender = 'Female'
+        else:
+            self.gender = 'Male'
         self.phone_number = phone_number
         self.email = email
+
+    def to_csv_string_person(self):
+        return f'{self.pk_pesel},{self.name},{self.surname},{self.gender},{self.phone_number},{self.email}\n'

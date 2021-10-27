@@ -1,11 +1,18 @@
 import datetime
+import getopt
+import sys
 import time
 
 from dateutil import relativedelta
 
+from data_raider import DataRaider
 from process import Process
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
+
+    students_number = int(sys.argv[1])
+    instructors_number = int(sys.argv[2])
 
     start_time = datetime.date.fromisoformat("2015-01-01")
     end_time = datetime.date.fromisoformat("2020-01-01")
@@ -13,8 +20,8 @@ if __name__ == '__main__':
     start = time.perf_counter()
     process = Process(start_time=start_time,
                       end_time=end_time,
-                      number_of_students=10000,
-                      number_of_instructors=300,
+                      number_of_students=students_number,
+                      number_of_instructors=instructors_number,
                       number_of_lecturers=3)
     print("Starting to initialize people")
     process.initialize_people()
@@ -33,7 +40,60 @@ if __name__ == '__main__':
         process.create_activities(date_of_inclusion=current_month, hours_per_drive=4)
         current_month += relativedelta.relativedelta(months=1)
 
+    # przed zmiana zapisanie danych
+    # people
+    current_students = filter(lambda student: student.begin_date <= current_month,
+                              process.students)
+    current_students = list(current_students)
+    with open('import/person_T1.bulk', 'w') as person_file:
+        for student in current_students:
+            person_file.write(student.to_csv_string_person())
+        for lecturer in process.lecturers:
+            person_file.write(lecturer.to_csv_string_person())
+        for instructor in process.instructors:
+            person_file.write(instructor.to_csv_string_person())
+
+    # students
+    with open('import/student_T1.bulk', 'w') as student_file:
+        for student in current_students:
+            student_file.write(student.to_csv_string_student())
+
+    # employees
+    with open('import/employee_T1.bulk', 'w') as employee_file:
+        for lecturer in process.lecturers:
+            employee_file.write(lecturer.to_csv_string_employee())
+        for instructor in process.instructors:
+            employee_file.write(instructor.to_csv_string_employee())
+
+    # courses
+    with open('import/course_T1.bulk', 'w') as course_file:
+        for course in process.courses:
+            course_file.write(course.to_csv_string())
+
+    # meetings
+    with open('import/meeting_T1.bulk', 'w') as meeting_file:
+        for meeting in process.lectures:
+            meeting_file.write(meeting.to_csv_string())
+        for meeting in process.drives:
+            meeting_file.write(meeting.to_csv_string())
+
+    # participation
+    with open('import/participation_T1.bulk', 'w') as participation_file:
+        for meeting in process.lectures:
+            participation_file.write(meeting.to_csv_string_participation())
+        for meeting in process.drives:
+            participation_file.write(meeting.to_csv_string_participation())
+
+    # exams
+    with open('import/exam_T1.bulk', 'w') as exam_file:
+        for exam in process.theoretical_exams:
+            exam_file.write(exam.to_csv_string())
+        for exam in process.practical_exams:
+            exam_file.write(exam.to_csv_string())
+
     # tutaj zmiana danych nastepuje w T1
+    data_raider = DataRaider(process)
+    data_raider.random_changes(15)
 
     # lecimy dalej z generowaniem T1-T2
     for _ in range(int((end_time - start_time).days / 30 / 2)):
@@ -49,3 +109,49 @@ if __name__ == '__main__':
     print(f'We created {all_rows} rows for our SQL database')
 
     # tutaj generowanie plików do importu SQL
+    # people
+    with open('import/person_T2.bulk', 'w') as person_file:
+        for student in process.students:
+            person_file.write(student.to_csv_string_person())
+        for lecturer in process.lecturers:
+            person_file.write(lecturer.to_csv_string_person())
+        for instructor in process.instructors:
+            person_file.write(instructor.to_csv_string_person())
+
+    # students
+    with open('import/student_T2.bulk', 'w') as student_file:
+        for student in process.students:
+            student_file.write(student.to_csv_string_student())
+
+    # employees
+    with open('import/employee_T2.bulk', 'w') as employee_file:
+        for lecturer in process.lecturers:
+            employee_file.write(lecturer.to_csv_string_employee())
+        for instructor in process.instructors:
+            employee_file.write(instructor.to_csv_string_employee())
+
+    # courses
+    with open('import/course_T2.bulk', 'w') as course_file:
+        for course in process.courses:
+            course_file.write(course.to_csv_string())
+
+    # meetings
+    with open('import/meeting_T2.bulk', 'w') as meeting_file:
+        for meeting in process.lectures:
+            meeting_file.write(meeting.to_csv_string())
+        for meeting in process.drives:
+            meeting_file.write(meeting.to_csv_string())
+
+    # participation
+    with open('import/participation_T2.bulk', 'w') as participation_file:
+        for meeting in process.lectures:
+            participation_file.write(meeting.to_csv_string_participation())
+        for meeting in process.drives:
+            participation_file.write(meeting.to_csv_string_participation())
+
+    # exams
+    with open('import/exam_T2.bulk', 'w') as exam_file:
+        for exam in process.theoretical_exams:
+            exam_file.write(exam.to_csv_string())
+        for exam in process.practical_exams:
+            exam_file.write(exam.to_csv_string())
