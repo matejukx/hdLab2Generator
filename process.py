@@ -150,7 +150,7 @@ class Process:
                             begin_date=meeting_time,
                             end_date=meeting_time + relativedelta.relativedelta(hours=hours_per_drive),
                             meeting_type=MeetingType.PRACTICE,
-                            students=list([student]),
+                            students=[student],
                             employee=instructor,
                             course=current_course
                         )
