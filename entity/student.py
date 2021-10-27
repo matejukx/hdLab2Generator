@@ -32,8 +32,9 @@ class Student(Person):
             self.additional_drives_factor = 1
         self.needed_drives = int(random.randint(30, 35) * self.additional_drives_factor)
         if self.gender == 'M':
-            self.exam_factor = 0.8
+            self.exam_factor = 0.95
         else:
             self.exam_factor = 1
 
         self.instructor = None
+        self.lecturer = None

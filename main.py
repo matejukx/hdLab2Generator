@@ -14,7 +14,7 @@ if __name__ == '__main__':
     process = Process(start_time=start_time,
                       end_time=end_time,
                       number_of_students=10000,
-                      number_of_instructors=500,
+                      number_of_instructors=300,
                       number_of_lecturers=3)
     print("Starting to initialize people")
     process.initialize_people()

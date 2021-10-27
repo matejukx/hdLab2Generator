@@ -6,8 +6,10 @@ from dateutil import relativedelta
 
 import generator
 from entity.course import Course
+from entity.exam import Exam
 from entity.metting import Meeting
 from enums.employee_role import EmployeeRole
+from enums.exam_type import ExamType
 from enums.meeting_type import MeetingType
 
 
@@ -91,9 +93,36 @@ class Process:
             if current_date.strftime("%A") == 'Sunday':
                 current_date += relativedelta.relativedelta(days=1)
 
+        for student in current_students:
+            student.lecturer = current_lecturer
         print(f'Lectures created!')
 
-        # wygenerowac tutaj egzaminy teoretyczne wewnetrzne
+        print(f'Started creating theoretical exams')
+        for student in current_students:
+            score = 0
+            attempts = 1
+            while score < 75:
+                attempts += 1
+                score = random.randint(50, 100) * student.exam_factor # randomizing
+                self.theoretical_exams.append(
+                    Exam(
+                        attempt_number=attempts,
+                        date=current_date,
+                        score=score,
+                        student=student,
+                        employee=current_lecturer,
+                        exam_type=ExamType.THEORY
+                    )
+                )
+
+        current_date += relativedelta.relativedelta(days=1)
+        if current_date.strftime("%A") == 'Saturday':
+            current_date += relativedelta.relativedelta(days=2)
+
+        if current_date.strftime("%A") == 'Sunday':
+            current_date += relativedelta.relativedelta(days=1)
+
+        print(f'Finished creating theoretical exams')
 
         print(f'Started creating drives')
 
@@ -139,6 +168,22 @@ class Process:
 
                     if current_date > max_date:
                         max_date = current_date
+
+                score = 0
+                attempts = 0
+                while score < 75:
+                    score = random.randint(50, 100) * student.exam_factor  # randomizing
+                    attempts += 1
+                    self.practical_exams.append(
+                        Exam(
+                            attempt_number=attempts,
+                            date=current_date,
+                            score=score,
+                            student=student,
+                            employee=student.instructor,
+                            exam_type=ExamType.PRACTICE
+                        )
+                    )
                 current_date = starting_current_date
 
             current_meeting_hour += hours_per_drive
