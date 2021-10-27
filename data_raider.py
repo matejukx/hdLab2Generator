@@ -31,8 +31,8 @@ class DataRaider:
                 student_index = random.randint(0, len(self.process.students)-1)
                 entity_object = self.process.students[student_index]
 
-            with open('data_change_log.txt', 'w') as log:
-                log.write(f'Before: {entity_object}\n')
+            with open('data_change_log.txt', 'a') as log:
+                log.write(f'Before: {str(entity_object)}\n')
 
             what_do = random.randint(0,100)
             if what_do < 33:
@@ -51,4 +51,4 @@ class DataRaider:
                 entity_object.phone_number = fake.phone_number()
 
             with open('data_change_log.txt', 'a') as log:
-                log.write(f'After: {entity_object}\n')
+                log.write(f'After: {str(entity_object)}\n')

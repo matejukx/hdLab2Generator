@@ -36,42 +36,44 @@ if __name__ == '__main__':
 
     # przed zmiana zapisanie danych
     # people
-    with open('person_T1.bulk', 'w') as person_file:
-        for student in process.students:
+    current_students = filter(lambda student: student.begin_date <= start_time + relativedelta.relativedelta(days=(end_time - start_time).days),
+                              process.students)
+    with open('import/person_T1.bulk', 'w') as person_file:
+        for student in current_students:
             person_file.write(student.to_csv_string_person())
-        for lecturer in process.lecturers:
+        for lecturer in current_students:
             person_file.write(lecturer.to_csv_string_person())
-        for instructor in process.instructors:
+        for instructor in current_students:
             person_file.write(instructor.to_csv_string_person())
 
     # students
-    with open('student_T1.bulk', 'w') as student_file:
-        for student in process.students:
+    with open('import/student_T1.bulk', 'w') as student_file:
+        for student in current_students:
             student_file.write(student.to_csv_string_student())
 
     # employees
-    with open('employee_T1.bulk', 'w') as employee_file:
+    with open('import/employee_T1.bulk', 'w') as employee_file:
         for lecturer in process.lecturers:
             employee_file.write(lecturer.to_csv_string_employee())
         for instructor in process.instructors:
             employee_file.write(instructor.to_csv_string_employee())
 
     # meetings
-    with open('meeting_T1.bulk', 'w') as meeting_file:
+    with open('import/meeting_T1.bulk', 'w') as meeting_file:
         for meeting in process.lectures:
             meeting_file.write(meeting.to_csv_string())
         for meeting in process.drives:
             meeting_file.write(meeting.to_csv_string())
 
     # participation
-    with open('participation_T1.bulk', 'w') as participation_file:
+    with open('import/participation_T1.bulk', 'w') as participation_file:
         for meeting in process.lectures:
             participation_file.write(meeting.to_csv_string_participation())
         for meeting in process.drives:
             participation_file.write(meeting.to_csv_string_participation())
 
     # exams
-    with open('exams_T1.bulk', 'w') as exam_file:
+    with open('import/exams_T1.bulk', 'w') as exam_file:
         for exam in process.theoretical_exams:
             exam_file.write(exam.to_csv_string())
         for exam in process.practical_exams:
@@ -98,7 +100,7 @@ if __name__ == '__main__':
 
     # tutaj generowanie plików do importu SQL
     # people
-    with open('person_T2.bulk', 'w') as person_file:
+    with open('import/person_T2.bulk', 'w') as person_file:
         for student in process.students:
             person_file.write(student.to_csv_string_person())
         for lecturer in process.lecturers:
@@ -107,38 +109,38 @@ if __name__ == '__main__':
             person_file.write(instructor.to_csv_string_person())
 
     # students
-    with open('student_T2.bulk', 'w') as student_file:
+    with open('import/student_T2.bulk', 'w') as student_file:
         for student in process.students:
             student_file.write(student.to_csv_string_student())
 
     # employees
-    with open('employee_T2.bulk','w') as employee_file:
+    with open('import/employee_T2.bulk', 'w') as employee_file:
         for lecturer in process.lecturers:
             employee_file.write(lecturer.to_csv_string_employee())
         for instructor in process.instructors:
             employee_file.write(instructor.to_csv_string_employee())
 
     # courses
-    with open('course_T2.bulk', 'w') as course_file:
+    with open('import/course_T2.bulk', 'w') as course_file:
         for course in process.courses:
             course_file.write(course.to_csv_string())
 
     # meetings
-    with open('meeting_T2.bulk', 'w') as meeting_file:
+    with open('import/meeting_T2.bulk', 'w') as meeting_file:
         for meeting in process.lectures:
             meeting_file.write(meeting.to_csv_string())
         for meeting in process.drives:
             meeting_file.write(meeting.to_csv_string())
 
     # participation
-    with open('participation_T2.bulk', 'w') as participation_file:
+    with open('import/participation_T2.bulk', 'w') as participation_file:
         for meeting in process.lectures:
             participation_file.write(meeting.to_csv_string_participation())
         for meeting in process.drives:
             participation_file.write(meeting.to_csv_string_participation())
 
     # exams
-    with open('exam_T2.bulk', 'w') as exam_file:
+    with open('import/exam_T2.bulk', 'w') as exam_file:
         for exam in process.theoretical_exams:
             exam_file.write(exam.to_csv_string())
         for exam in process.practical_exams:
