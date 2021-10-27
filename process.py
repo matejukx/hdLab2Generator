@@ -11,14 +11,12 @@ from enums.employee_role import EmployeeRole
 from enums.meeting_type import MeetingType
 
 
-class StartProcess:
+class Process:
     def __init__(self,
                  start_time,
                  end_time,
-                 number_of_students_per_request,
-                 student_iterations,
-                 number_of_instructors_per_request,
-                 instructor_iterations,
+                 number_of_students,
+                 number_of_instructors,
                  number_of_lecturers):
 
         self.students = []
@@ -35,27 +33,21 @@ class StartProcess:
         self.start_time = start_time
         self.end_time = end_time
 
-        self.s_per_req = number_of_students_per_request
-        self.i_per_req = number_of_instructors_per_request
-        self.s_iterations = student_iterations
-        self.i_iterations = instructor_iterations
-
+        self.students_number = number_of_students
+        self.instructors_number = number_of_instructors
         self.lecturers_number = number_of_lecturers
 
     def initialize_people(self):
-        self.students = generator.generate_students(number_of_students_per_request=self.s_per_req,
-                                                    iterations=self.s_iterations,
+        self.students = generator.generate_students(number_of_students=self.students_number,
                                                     start_date=self.start_time,
                                                     end_date=self.end_time)
 
-        self.instructors = generator.generate_employees(number_of_employees_per_request=self.i_per_req,
-                                                        iterations=self.i_iterations,
+        self.instructors = generator.generate_employees(number_of_employees=self.instructors_number,
                                                         role=EmployeeRole.PRACTICE_INSTRUCTOR,
                                                         start_date=self.start_time - datetime.timedelta(days=50),
                                                         end_date=self.start_time)
 
-        self.lecturers = generator.generate_employees(number_of_employees_per_request=3,
-                                                      iterations=1,
+        self.lecturers = generator.generate_employees(number_of_employees=self.lecturers_number,
                                                       role=EmployeeRole.THEORY_INSTRUCTOR,
                                                       start_date=self.start_time - datetime.timedelta(days=50),
                                                       end_date=self.start_time
