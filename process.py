@@ -150,8 +150,8 @@ class StartProcess:
                 current_date = starting_current_date
 
             current_meeting_hour += hours_per_drive
-            if current_meeting_hour > 22:
-                print("There are too many students!!!")
+            if current_meeting_hour > 23:
+                print("There are too many students for this amount of instructors!")
             current_date = starting_current_date
 
         print(f'Finished generating drives!')
@@ -159,4 +159,4 @@ class StartProcess:
         # tutaj generowanie egzaminow wewnetrznych praktycznych
 
         print(f'Finished generating activities.\n It took {(max_date - start_date).days} days'
-              f'for all students from month: {date_of_inclusion} to finish their course')
+              f' for all students from month: {date_of_inclusion} to finish their course')

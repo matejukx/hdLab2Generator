@@ -13,9 +13,9 @@ if __name__ == '__main__':
     start_process = StartProcess(start_time=start_time,
                                  end_time=end_time,
                                  number_of_students_per_request=100,
-                                 student_iterations=10,
+                                 student_iterations=100,
                                  number_of_instructors_per_request=50,
-                                 instructor_iterations=1,
+                                 instructor_iterations=10,
                                  number_of_lecturers=3)
     print("Starting to initialize people")
     start_process.initialize_people()
@@ -34,15 +34,3 @@ if __name__ == '__main__':
           f'\nIt took {time.perf_counter() - start} seconds to create activities for approx'
           f' \n {len(start_process.students) / int((end_time - start_time).days / 30)} students')
 
-    # for student in gen.students:
-    #     print(
-    #         str(student.pk_pesel),
-    #         str(student.name),
-    #         str(student.surname),
-    #         str(student.date_of_birth),
-    #         str(student.gender),
-    #         str(student.phone_number),
-    #         str(student.email),
-    #         str(student.begin_date),
-    #         str(student.end_date)
-    #           )
