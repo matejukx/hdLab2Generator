@@ -150,12 +150,11 @@ class Process:
                             begin_date=meeting_time,
                             end_date=meeting_time + relativedelta.relativedelta(hours=hours_per_drive),
                             meeting_type=MeetingType.PRACTICE,
-                            students=None,
+                            students=list([student]),
                             employee=instructor,
                             course=current_course
                         )
                     )
-                    drive.student = student
                     self.drives.append(drive)
                     student.drives_done += hours_per_drive
 

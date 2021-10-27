@@ -31,3 +31,6 @@ class Employee(Person):
     def is_employed(self, current_date):
         return self.employment_date < current_date
 
+    def to_csv_string_employee(self):
+        return f'{self.employment_date},{self.role},{self.wage_per_hour}\n'
+

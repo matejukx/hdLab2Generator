@@ -6,3 +6,6 @@ class Course:
         self.course_id = course_id
         self.employee_pesel = employee_pesel
 
+    def to_csv_string(self):
+        return f'{self.course_id}, {self.employee_pesel}\n'
+

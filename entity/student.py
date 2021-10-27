@@ -39,8 +39,5 @@ class Student(Person):
         self.instructor = None
         self.lecturer = None
 
-    def to_csv_string_person(self):
-        return f'{self.pk_pesel},{self.name},{self.surname},{self.gender},{self.phone_number},{self.email}\n'
-
     def to_csv_string_student(self):
         return f'{self.pk_pesel},{self.begin_date},{self.end_date}\n'
