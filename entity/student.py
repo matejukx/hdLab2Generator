@@ -35,3 +35,5 @@ class Student(Person):
             self.exam_factor = 0.8
         else:
             self.exam_factor = 1
+
+        self.instructor = None

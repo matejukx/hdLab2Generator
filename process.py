@@ -28,6 +28,7 @@ class StartProcess:
 
         self.courses = []
         self.lectures = []
+        self.drives = []
         self.theoretical_exams = []
         self.practical_exams = []
 
@@ -60,8 +61,9 @@ class StartProcess:
                                                       end_date=self.start_time
                                                       )
 
-    def create_activities(self, date_of_inclusion):
+    def create_activities(self, date_of_inclusion, hours_per_drive):
         start_date = date_of_inclusion + relativedelta.relativedelta(months=1)
+        current_date = start_date
 
         print(f'Collecting students from {date_of_inclusion} to {start_date}')
         current_students = filter(lambda student:
@@ -70,7 +72,7 @@ class StartProcess:
         current_students = list(current_students)
         print(f'Collected {len(current_students)} for this month.')
 
-        current_lecturer_index = random.randint(0, len(self.lecturers)-1)
+        current_lecturer_index = random.randint(0, len(self.lecturers) - 1)
         current_lecturer = self.lecturers[current_lecturer_index]
         print(f'This month lecturer: {current_lecturer.pk_pesel} {current_lecturer.name} {current_lecturer.surname}')
 
@@ -78,10 +80,10 @@ class StartProcess:
         self.courses.append(current_course)
 
         print(f'Started creating lectures')
-        for _ in range(30):
+        for _ in range(15):
             self.lectures.append(
                 Meeting(
-                    id=uuid.uuid4(),
+                    meeting_id=uuid.uuid4(),
                     begin_date=start_date + relativedelta.relativedelta(hours=12),
                     end_date=start_date + relativedelta.relativedelta(hours=14),
                     meeting_type=MeetingType.THEORY,
@@ -90,7 +92,71 @@ class StartProcess:
                     course=current_course
                 )
             )
+            current_date += relativedelta.relativedelta(days=1)
+            if current_date.strftime("%A") == 'Saturday':
+                current_date += relativedelta.relativedelta(days=2)
+
+            if current_date.strftime("%A") == 'Sunday':
+                current_date += relativedelta.relativedelta(days=1)
+
         print(f'Lectures created!')
+
+        # wygenerowac tutaj egzaminy teoretyczne wewnetrzne
 
         print(f'Started creating drives')
 
+        students_needing_drives = filter(lambda student:
+                                         student.drives_done < student.needed_drives and student.instructor is None,
+                                         current_students)
+
+        students_needing_drives = list(students_needing_drives)
+        max_date = current_date
+        current_meeting_hour = 8
+        while len(students_needing_drives) > 0:
+            starting_current_date = current_date
+            # each instructor takes a student and we create all drives for them
+            for instructor in self.instructors:
+                if len(students_needing_drives) == 0:
+                    continue
+                student = students_needing_drives.pop()
+                student.instructor = instructor
+
+                while student.drives_done < student.needed_drives:
+                    meeting_time = current_date + relativedelta.relativedelta(hours=current_meeting_hour)
+                    drive = (
+                        Meeting(
+                            meeting_id=uuid.uuid4(),
+                            begin_date=meeting_time,
+                            end_date=meeting_time + relativedelta.relativedelta(hours=hours_per_drive),
+                            meeting_type=MeetingType.PRACTICE,
+                            students=None,
+                            employee=instructor,
+                            course=current_course
+                        )
+                    )
+                    drive.student = student
+                    self.drives.append(drive)
+                    student.drives_done += hours_per_drive
+
+                    current_date += relativedelta.relativedelta(days=1)
+                    if current_date.strftime("%A") == 'Saturday':
+                        current_date += relativedelta.relativedelta(days=2)
+
+                    if current_date.strftime("%A") == 'Sunday':
+                        current_date += relativedelta.relativedelta(days=1)
+
+                    if current_date > max_date:
+                        max_date = current_date
+                current_date = starting_current_date
+
+            current_meeting_hour += hours_per_drive
+            if current_meeting_hour > 22:
+                print("There are too many students!!!")
+            current_date = starting_current_date
+
+        print(f'Finished generating drives!')
+
+        # tutaj generowanie egzaminow wewnetrznych praktycznych
+
+        print(f'Finished generating activities.\n It took {(max_date - start_date).days} days'
+              f'for all students from month: {date_of_inclusion} to finish their course')
