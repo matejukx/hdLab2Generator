@@ -28,3 +28,6 @@ class Employee(Person):
         # those should not be mapped anywhere
         self.is_currently_busy = False
 
+    def is_employed(self, current_date):
+        return self.employment_date < current_date
+
