@@ -1,7 +1,7 @@
-CREATE DATABASE DrivingSchool3
+CREATE DATABASE DrivingSchool9
 GO
 
-USE DrivingSchool3
+USE DrivingSchool9
 GO
 
 CREATE TABLE [Person]
@@ -55,7 +55,7 @@ GO
 CREATE TABLE [Exam] (
   [Attempt_number] integer,
   [Date] date,
-  [Score] integer,
+  [Score] float,
   [Type] nvarchar(255) NOT NULL CHECK ([Type] IN ('Theory', 'Practice')),
   [FK_Student_PESEL] VARCHAR(11) FOREIGN KEY REFERENCES [Student] ([PK_PESEL]),
   [FK_Employee_PESEL] VARCHAR(11) FOREIGN KEY REFERENCES [Employee] ([PK_PESEL])

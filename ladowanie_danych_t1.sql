@@ -1,4 +1,4 @@
-use DrivingSchool3
+use DrivingSchool9
 GO
 -- po T1
 BULK INSERT dbo.Person

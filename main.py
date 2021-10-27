@@ -79,7 +79,7 @@ if __name__ == '__main__':
             participation_file.write(meeting.to_csv_string_participation())
 
     # exams
-    with open('import/exams_T1.bulk', 'w') as exam_file:
+    with open('import/exam_T1.bulk', 'w') as exam_file:
         for exam in process.theoretical_exams:
             exam_file.write(exam.to_csv_string())
         for exam in process.practical_exams:
