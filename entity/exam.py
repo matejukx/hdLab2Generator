@@ -3,6 +3,7 @@ class Exam:
     def __init__(self,
                  attempt_number,
                  date,
+                 city,
                  score,
                  exam_type,
                  student,
@@ -10,6 +11,7 @@ class Exam:
 
         self.attempt_number = attempt_number
         self.date = date
+        self.city = city
         self.score = score
         self.exam_type = exam_type
         self.student = student

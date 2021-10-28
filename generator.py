@@ -1,5 +1,9 @@
+import csv
 import datetime
 import random
+
+import const
+import enums.exam_type
 
 import faker
 from faker.providers import person
@@ -8,6 +12,9 @@ from faker.providers import profile
 
 from entity.employee import Employee
 from entity.student import Student
+from entity.assesment_form import AssesmentForm
+from entity.exam_form import ExamForm
+from enums.exam_type import ExamType
 
 PESEL = 10000000000
 
@@ -73,3 +80,66 @@ def random_date(start, end):
     int_delta = delta.days
     random_day = random.randint(0, int_delta)
     return start + datetime.timedelta(days=random_day)
+
+
+def generate_from_distribution(distribution):
+    num = random.uniform(0, 1)
+    sum_of_elements = 0
+    for idx, elem in enumerate(distribution):
+        sum_of_elements += distribution[idx]
+        if num <= sum_of_elements:
+            return idx
+
+
+def generate_assesment_forms(students):
+    with open(const.assesment_forms_filename, 'w', newline='') as csvfile:
+        fieldnames = ['pesel', 'lecturer_rating', 'instructor_rating', 'course_rating']
+        writer = csv.DictWriter(csvfile, fieldnames)
+        writer.writeheader()
+        for student in students:
+            form = AssesmentForm(
+                student,
+                generate_from_distribution(const.assesment_lecturer_rating_distribution),
+                generate_from_distribution(const.assesment_instruction_rating_distribution),
+                generate_from_distribution(const.assesment_course_rating_distribution),
+            )
+            writer.writerow({
+                fieldnames[0]: form.student.pk_pesel,
+                fieldnames[1]: form.lecturer_rating,
+                fieldnames[2]: form.instructor_rating,
+                fieldnames[3]: form.course_rating,
+            })
+        csvfile.close()
+
+
+def unpolishify(text):
+    for p_letter, np_letter in const.unpolishify_dict.items():
+        text = text.replace(p_letter, np_letter)
+    return text
+
+
+def generate_exam_forms(exams):
+    with open(const.exam_forms_filename, 'w', newline='') as csvfile:
+        fieldnames = ['pesel', 'exam_type', 'score', 'attempt_number', 'exam_date', 'city']
+        writer = csv.DictWriter(csvfile, fieldnames)
+        writer.writeheader()
+        for exam in exams:
+            form = ExamForm(
+                exam.student,
+                exam.exam_type,
+                exam.score,
+                exam.attempt_number,
+                exam.date,
+                unpolishify(exam.city)
+            )
+
+            writer.writerow({
+                fieldnames[0]: form.student.pk_pesel,
+                fieldnames[1]: ExamType(form.exam_type).name,
+                fieldnames[2]: form.score,
+                fieldnames[3]: form.attempt_number,
+                fieldnames[4]: form.exam_date,
+                fieldnames[5]: form.city,
+            })
+
+        csvfile.close()
