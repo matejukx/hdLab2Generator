@@ -156,9 +156,12 @@ if __name__ == "__main__":
         for exam in process.practical_exams:
             exam_file.write(exam.to_csv_string())
 
+    students_done = filter(lambda student: student.end_date is not None, process.students)
+    students_done = list(students_done)
+
     # tutaj generowanie ankiet po kursie
-    generator.generate_assesment_forms(process.students)
+    generator.generate_assesment_forms(students_done)
 
     # tutaj generowanie ankiet o wynikach egzaminow
-    generator.generate_exam_forms_theory(process.students)
-    generator.generate_exam_forms_practical(process.students)
+    generator.generate_exam_forms_theory(students_done)
+    generator.generate_exam_forms_practical(students_done)
