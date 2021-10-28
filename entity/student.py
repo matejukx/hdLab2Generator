@@ -1,3 +1,5 @@
+import datetime
+
 from entity.person import Person
 import random
 
@@ -38,6 +40,8 @@ class Student(Person):
 
         self.instructor = None
         self.lecturer = None
+
+        self.passed_theory_date = datetime.date.today()
 
     def to_csv_string_student(self):
         if self.end_date is None:

@@ -5,6 +5,7 @@ import time
 
 from dateutil import relativedelta
 
+import generator
 from data_raider import DataRaider
 from process import Process
 
@@ -155,3 +156,10 @@ if __name__ == "__main__":
             exam_file.write(exam.to_csv_string())
         for exam in process.practical_exams:
             exam_file.write(exam.to_csv_string())
+
+    # tutaj generowanie ankiet po kursie
+    generator.generate_assesment_forms(process.students)
+
+    # tutaj generowanie ankiet o wynikach egzaminow
+    generator.generate_exam_forms_theory(process.students)
+    generator.generate_exam_forms_practical(process.students)
