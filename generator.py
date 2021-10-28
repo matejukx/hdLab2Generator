@@ -90,7 +90,7 @@ def generate_from_distribution(distribution):
     for idx, elem in enumerate(distribution):
         sum_of_elements += distribution[idx]
         if num <= sum_of_elements:
-            return idx
+            return idx + 1
 
 
 def generate_assesment_forms(students):
