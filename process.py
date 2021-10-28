@@ -109,7 +109,6 @@ class Process:
                     Exam(
                         attempt_number=attempts,
                         date=current_date,
-                        city=random.choice(const.word_cities),
                         score=score,
                         student=student,
                         employee=current_lecturer,
@@ -179,7 +178,6 @@ class Process:
                         Exam(
                             attempt_number=attempts,
                             date=current_date,
-                            city=random.choice(const.word_cities),
                             score=score,
                             student=student,
                             employee=student.instructor,
@@ -201,11 +199,3 @@ class Process:
         print(f'Finished generating activities.\n It took {(max_date - start_date).days} days'
               f' for all students from month: {date_of_inclusion} to finish their course')
 
-        # tutaj generowanie ankiet po kursie
-
-        generator.generate_assesment_forms(self.students)
-
-        # tutaj generowanie ankiet o wynikach egzaminow
-
-        generator.generate_exam_forms(self.theoretical_exams)
-        generator.generate_exam_forms(self.practical_exams)

@@ -2,6 +2,8 @@ import csv
 import datetime
 import random
 
+from dateutil import relativedelta
+
 import const
 import enums.exam_type
 
@@ -118,28 +120,48 @@ def unpolishify(text):
     return text
 
 
-def generate_exam_forms(exams):
+def generate_exam_forms(students, exam_type):
     with open(const.exam_forms_filename, 'w', newline='') as csvfile:
         fieldnames = ['pesel', 'exam_type', 'score', 'attempt_number', 'exam_date', 'city']
         writer = csv.DictWriter(csvfile, fieldnames)
         writer.writeheader()
-        for exam in exams:
-            form = ExamForm(
-                exam.student,
-                exam.exam_type,
-                exam.score,
-                exam.attempt_number,
-                exam.date,
-                unpolishify(exam.city)
-            )
+        for student in students:
+            if type == 'Theory':
+                exam_date = student.end_date + relativedelta.relativedelta(days=random.randint(1, 5))
+            else:
+                exam_date = student.passed_theory_date + relativedelta.relativedelta(days=random.randint(1, 5))
+            score = 0
+            attempts = 0
+            city = unpolishify(random.choice(const.word_cities))
+            while score < 75:
+                attempts += 1
+                score = random.randint(0, 100) * student.exam_factor
+                form = ExamForm(
+                    student=student,
+                    exam_type=exam_type,
+                    score=score,
+                    attempt_number=attempts,
+                    exam_date=exam_date,
+                    city=city
+                )
 
-            writer.writerow({
-                fieldnames[0]: form.student.pk_pesel,
-                fieldnames[1]: ExamType(form.exam_type).name,
-                fieldnames[2]: form.score,
-                fieldnames[3]: form.attempt_number,
-                fieldnames[4]: form.exam_date,
-                fieldnames[5]: form.city,
-            })
-
+                writer.writerow({
+                    fieldnames[0]: form.student.pk_pesel,
+                    fieldnames[1]: form.exam_type,
+                    fieldnames[2]: form.score,
+                    fieldnames[3]: form.attempt_number,
+                    fieldnames[4]: form.exam_date,
+                    fieldnames[5]: form.city,
+                })
+                exam_date += relativedelta.relativedelta(days=random.randint(1, 5))
+            if exam_type == 'Theory':
+                student.passed_theory_date = exam_date
         csvfile.close()
+
+
+def generate_exam_forms_theory(students):
+    return generate_exam_forms(students, 'Theory')
+
+
+def generate_exam_forms_practical(students):
+    return generate_exam_forms(students, 'Practical')
