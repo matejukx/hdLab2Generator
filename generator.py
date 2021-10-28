@@ -126,7 +126,7 @@ def generate_exam_forms(students, exam_type):
         writer = csv.DictWriter(csvfile, fieldnames)
         writer.writeheader()
         for student in students:
-            if type == 'Theory':
+            if exam_type == ExamType.THEORY:
                 exam_date = student.end_date + relativedelta.relativedelta(days=random.randint(1, 5))
             else:
                 exam_date = student.passed_theory_date + relativedelta.relativedelta(days=random.randint(1, 5))
@@ -145,23 +145,29 @@ def generate_exam_forms(students, exam_type):
                     city=city
                 )
 
+                if exam_type == ExamType.PRACTICE:
+                    if score < 75:
+                        form.score = 'not passed'
+                    else:
+                        form.score = 'passed'
+
                 writer.writerow({
                     fieldnames[0]: form.student.pk_pesel,
-                    fieldnames[1]: form.exam_type,
+                    fieldnames[1]: ExamType(form.exam_type).name,
                     fieldnames[2]: form.score,
                     fieldnames[3]: form.attempt_number,
                     fieldnames[4]: form.exam_date,
                     fieldnames[5]: form.city,
                 })
                 exam_date += relativedelta.relativedelta(days=random.randint(1, 5))
-            if exam_type == 'Theory':
+            if exam_type == ExamType.THEORY:
                 student.passed_theory_date = exam_date
         csvfile.close()
 
 
 def generate_exam_forms_theory(students):
-    return generate_exam_forms(students, 'Theory')
+    return generate_exam_forms(students, ExamType.THEORY)
 
 
 def generate_exam_forms_practical(students):
-    return generate_exam_forms(students, 'Practical')
+    return generate_exam_forms(students, ExamType.PRACTICE)

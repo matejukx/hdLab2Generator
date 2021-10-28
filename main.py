@@ -1,5 +1,4 @@
 import datetime
-import getopt
 import sys
 import time
 
