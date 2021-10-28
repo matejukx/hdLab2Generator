@@ -121,7 +121,7 @@ def unpolishify(text):
 
 
 def generate_exam_forms(students, exam_type):
-    with open(const.exam_forms_filename, 'w', newline='') as csvfile:
+    with open(exam_type.name + const.exam_forms_filename, 'w', newline='') as csvfile:
         fieldnames = ['pesel', 'exam_type', 'score', 'attempt_number', 'exam_date', 'city']
         writer = csv.DictWriter(csvfile, fieldnames)
         writer.writeheader()
